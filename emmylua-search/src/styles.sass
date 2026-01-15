@@ -108,11 +108,11 @@ input
     display: grid
     grid-template-columns: 1fr auto
     gap: 1rem
-
     @media (max-width: 768px)
         grid-template-columns: 1fr
         .file-box
             grid-row: 1
+            width: 100%
         .input-container
             grid-row: 2
 
@@ -136,20 +136,16 @@ input
     display: flex
     flex-direction: column
     justify-content: center
-    min-width: 120px
-    .label
-        font-size: 0.6rem
-        color: var(--text-secondary)
-        letter-spacing: 0.1em
-        margin-bottom: 2px
+    min-width: 0
+    flex: 1
     .file-name
         font-family: var(--font-mono)
-        font-size: 0.75rem
+        font-size: 0.85rem
         color: var(--lua-cyan)
         white-space: nowrap
         overflow: hidden
         text-overflow: ellipsis
-        max-width: 150px
+        max-width: 250px
 
 .file-actions
     display: flex

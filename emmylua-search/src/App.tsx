@@ -98,7 +98,6 @@ export default function App() {
 
                         <div className="file-box">
                             <div className="file-info">
-                                <span className="label">ACTIVE KB</span>
                                 <span className="file-name">{fileName}</span>
                             </div>
                             <div className="file-actions">
