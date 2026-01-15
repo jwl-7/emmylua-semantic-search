@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useSemanticSearch } from '@/useSemanticSearch'
 import SearchResults from '@/SearchResults'
+import FileUpload from '@/FileUpload'
 import luaKbData from '@/lua_kb.json'
 import '@/styles.sass'
 
@@ -18,21 +19,9 @@ export default function App() {
 
     const { results, isSearching, modelReady } = useSemanticSearch(query, kbData)
 
-    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0]
-        if (!file) return
-
-        const reader = new FileReader()
-        reader.onload = (event) => {
-            try {
-                const json = JSON.parse(event.target?.result as string)
-                setKbData(json)
-                setFileName(file.name)
-            } catch (err) {
-                alert("Invalid JSON format")
-            }
-        }
-        reader.readAsText(file)
+    const handleFileUpload = (data: any, name: string) => {
+        setKbData(data)
+        setFileName(name)
     }
 
     const clearFile = () => {
@@ -60,20 +49,12 @@ export default function App() {
                             />
                         </div>
 
-                        <div className="file-box">
-                            <div className="file-info">
-                                <span className="file-name">{fileName}</span>
-                            </div>
-                            <div className="file-actions">
-                                <label className="modern-upload">
-                                    BROWSE
-                                    <input type="file" accept=".json" onChange={handleFileUpload} hidden />
-                                </label>
-                                {fileName !== 'lua_kb.json' && (
-                                    <button className="clear-btn" onClick={clearFile}>RESET</button>
-                                )}
-                            </div>
-                        </div>
+                        <FileUpload
+                            fileName={fileName}
+                            onFileUpload={handleFileUpload}
+                            onClearFile={clearFile}
+                            isDefaultFile={fileName === 'lua_kb.json'}
+                        />
                     </div>
                 </div>
 
