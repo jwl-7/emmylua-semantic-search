@@ -1,0 +1,245 @@
+$glass-bg: rgba(255, 255, 255, 0.05)
+$glass-border: rgba(255, 255, 255, 0.1)
+$accent-blue: #38bdf8
+$accent-purple: #a78bfa
+$text-primary: #e5e7eb
+$text-secondary: #9ca3af
+
+// Rainbow loader variables
+$color-red: #ff6b6b
+$color-yellow: #ffd93d
+$color-green: #6bcf7f
+$color-blue: #4d96ff
+$color-purple: #9d4edd
+$color-pink: #ff006e
+
+@font-face
+    font-display: swap
+    font-family: firacode
+    src: url(@/firacode.woff2) format('woff2')
+
+:root
+    --background-image: url('@/bg-city-night.webp')
+    --font-family-sans-serif: 'Segoe UI', Roboto, sans-serif
+    --font-family-monospace: firacode, monospace
+
+*,
+*::before,
+*::after
+    box-sizing: border-box
+    background-repeat: no-repeat
+
+html
+    font-family: var(--font-family-sans-serif)
+
+body
+    background-attachment: fixed
+    background-image: var(--background-image)
+    background-size: cover
+    color: $text-primary
+    margin: 0
+    text-rendering: optimizeLegibility
+
+main
+    height: 100vh
+
+.appWrapper
+    min-height: 100vh
+    padding: 2rem
+    display: flex
+    justify-content: center
+    align-items: center
+
+.contentWrapper
+    width: 100%
+    max-width: 900px
+    min-width: 900px
+    display: flex
+    flex-direction: column
+    gap: 2rem
+
+.header
+    display: flex
+    justify-content: center
+    align-items: center
+    padding: 2rem
+    background: $glass-bg
+    backdrop-filter: blur(20px)
+    -webkit-backdrop-filter: blur(20px)
+    border: 1px solid $glass-border
+    border-radius: 1rem
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3)
+
+.title
+    font-size: 3rem
+    font-weight: 700
+    letter-spacing: 0.1em
+    background: linear-gradient(135deg, $accent-blue, $accent-purple)
+    -webkit-background-clip: text
+    background-clip: text
+    -webkit-text-fill-color: transparent
+
+.statusIndicator
+    display: flex
+    align-items: center
+    gap: 0.75rem
+    font-size: 0.875rem
+    color: $text-secondary
+
+    .statusDot
+        width: 10px
+        height: 10px
+        border-radius: 50%
+        animation: pulse 2s ease-in-out infinite
+
+@keyframes pulse
+    0%, 100%
+        opacity: 1
+    50%
+        opacity: 0.5
+
+.searchPanel
+    position: relative
+    padding: 2rem
+    background: $glass-bg
+    backdrop-filter: blur(20px)
+    -webkit-backdrop-filter: blur(20px)
+    border: 1px solid $glass-border
+    border-radius: 1rem
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3)
+
+input
+    width: 100%
+    padding: 1rem 1.5rem
+    background: rgba(255, 255, 255, 0.03)
+    border: 1px solid rgba(255, 255, 255, 0.08)
+    border-radius: 0.75rem
+    color: $text-primary
+    font-size: 1rem
+    outline: none
+    transition: all 0.3s ease
+
+    &::placeholder
+        color: $text-secondary
+
+    &:focus
+        background: rgba(255, 255, 255, 0.05)
+        border-color: $accent-blue
+        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1)
+
+    &:disabled
+        opacity: 0.5
+        cursor: not-allowed
+
+.searchLoader
+    position: absolute
+    right: 2.5rem
+    top: 50%
+    transform: translateY(-50%)
+    width: 32px
+    height: 32px
+
+    div
+        position: absolute
+        opacity: 1
+        border-radius: 50%
+        animation: ripple 2s cubic-bezier(0, 0.2, 0.8, 1) infinite
+        background: conic-gradient(from 0deg, $color-red, $color-yellow, $color-green, $color-blue, $color-purple, $color-pink, $color-red)
+
+    &::before
+        content: ''
+        position: absolute
+        top: 3px
+        left: 3px
+        right: 3px
+        bottom: 3px
+        background: $glass-bg
+        backdrop-filter: blur(20px)
+        border-radius: 50%
+
+    &:nth-child(2)
+        animation-delay: -0.66s
+
+    &:nth-child(3)
+        animation-delay: -1.33s
+
+@keyframes ripple
+    0%
+        top: 14px
+        left: 14px
+        width: 4px
+        height: 4px
+        opacity: 0
+    4.9%
+        top: 14px
+        left: 14px
+        width: 4px
+        height: 4px
+        opacity: 0
+    5%
+        top: 14px
+        left: 14px
+        width: 4px
+        height: 4px
+        opacity: 1
+    100%
+        top: 0
+        left: 0
+        width: 32px
+        height: 32px
+        opacity: 0
+
+.resultsList
+    display: flex
+    flex-direction: column
+    gap: 1.5rem
+
+.resultCard
+    background: $glass-bg
+    backdrop-filter: blur(20px)
+    -webkit-backdrop-filter: blur(20px)
+    border: 1px solid $glass-border
+    border-radius: 1rem
+    padding: 1.5rem
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3)
+    transition: all 0.3s ease
+
+    &:hover
+        transform: translateY(-2px)
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4)
+        border-color: rgba(255, 255, 255, 0.15)
+
+.scoreHeader
+    display: flex
+    justify-content: flex-start
+    margin-bottom: 1rem
+
+.matchBadge
+    display: flex
+    align-items: center
+    gap: 0.5rem
+    padding: 0.5rem 1rem
+    border-radius: 0.5rem
+    transition: all 0.3s ease
+
+.percent
+    font-weight: 700
+    font-size: 1.25rem
+
+.label
+    font-size: 0.75rem
+    color: $text-secondary
+    letter-spacing: 0.05em
+
+.codeContainer
+    background: rgba(0, 0, 0, 0.3)
+    border: 1px solid rgba(255, 255, 255, 0.05)
+    border-radius: 0.5rem
+    padding: 1rem
+    overflow-x: auto
+    font-family: 'Fira Code', 'Courier New', monospace
+    font-size: 0.875rem
+    line-height: 1.6
+
+code
+    color: #e5e7eb
