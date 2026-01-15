@@ -1,7 +1,6 @@
 <div align="center">
-    <img alt="Demo" src="https://github.com/user-attachments/assets/9ef3584d-dcfc-4a3e-939e-e8073b66cec1" />
+    <img alt="Demo" width="400" src="https://github.com/user-attachments/assets/9ef3584d-dcfc-4a3e-939e-e8073b66cec1" />
 </div>
-<br/>
 
 # 🔍 emmylua-semantic-search
 AI semantic search for EmmyLua library files
