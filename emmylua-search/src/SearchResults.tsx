@@ -1,12 +1,5 @@
 import LuaHighlighter from '@/LuaHighlighter'
 
-interface LuaKBEntry {
-    id: string
-    file: string
-    content: string
-    vector: number[]
-}
-
 interface SearchResultsProps {
     results: (LuaKBEntry & { score: number })[]
     isSearching: boolean

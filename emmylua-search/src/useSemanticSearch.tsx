@@ -1,13 +1,6 @@
 import { useState, useEffect } from 'react'
 import { pipeline, cos_sim } from '@xenova/transformers'
 
-interface LuaKBEntry {
-    id: string
-    file: string
-    content: string
-    vector: number[]
-}
-
 export function useSemanticSearch(query: string, kbData: LuaKBEntry[]) {
     const [model, setModel] = useState<any>(null)
     const [results, setResults] = useState<(LuaKBEntry & { score: number })[]>([])

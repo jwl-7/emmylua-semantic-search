@@ -5,13 +5,6 @@ import FileUpload from '@/FileUpload'
 import luaKbData from '@/lua_kb.json'
 import '@/styles.sass'
 
-interface LuaKBEntry {
-    id: string
-    file: string
-    content: string
-    vector: number[]
-}
-
 export default function App() {
     const [query, setQuery] = useState('')
     const [kbData, setKbData] = useState<LuaKBEntry[]>(luaKbData as LuaKBEntry[])
