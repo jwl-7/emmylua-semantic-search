@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useSemanticSearch } from '@/useSemanticSearch'
 import SearchResults from '@/SearchResults'
 import FileUpload from '@/FileUpload'
@@ -58,19 +58,7 @@ export default function App() {
                     </div>
                 </div>
 
-                <div className="results-area">
-                    {isSearching ? (
-                        <div className="centered-loader">
-                            <div className="mega-ripple">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                            </div>
-                        </div>
-                    ) : (
-                        <SearchResults results={results} />
-                    )}
-                </div>
+                <SearchResults results={results} isSearching={isSearching} />
             </div>
         </div>
     )

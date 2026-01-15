@@ -9,11 +9,22 @@ interface LuaKBEntry {
 
 interface SearchResultsProps {
     results: (LuaKBEntry & { score: number })[]
+    isSearching: boolean
 }
 
-export default function SearchResults({ results }: SearchResultsProps) {
+export default function SearchResults({ results, isSearching }: SearchResultsProps) {
     return (
-        <div className="results-list">
+        <div className="results-area">
+            {isSearching ? (
+                <div className="centered-loader">
+                    <div className="mega-ripple">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+            ) : (
+                <div className="results-list">
             {results.map((item) => {
                 const score = item.score * 100
                 const hue = score * 1.2
@@ -35,6 +46,8 @@ export default function SearchResults({ results }: SearchResultsProps) {
                     </div>
                 )
             })}
+        </div>
+            )}
         </div>
     )
 }
