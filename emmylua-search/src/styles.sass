@@ -15,9 +15,7 @@
     font-family: firacode
     src: url(@/firacode.woff2) format('woff2')
 
-*,
-*::before,
-*::after
+*, *::before, *::after
     box-sizing: border-box
     background-repeat: no-repeat
 
@@ -42,15 +40,12 @@ input
     font-size: 1rem
     outline: none
     transition: all 0.3s ease
-
     &::placeholder
         color: var(--text-secondary)
-
     &:focus
         background: rgba(255, 255, 255, 0.05)
         border-color: var(--blue-accent)
         box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1)
-
     &:disabled
         opacity: 0.5
         cursor: not-allowed
@@ -61,9 +56,8 @@ input
     display: flex
     justify-content: center
     align-items: flex-start
-    padding-top: 35vh
+    padding-top: 30vh
     transition: padding-top 0.6s cubic-bezier(0.16, 1, 0.3, 1)
-
     &.active
         padding-top: 5vh
 
@@ -81,7 +75,7 @@ input
     flex-direction: column
     align-items: center
     gap: 1.5rem
-    padding: 2rem
+    padding: 2.5rem 2rem
     background: var(--glass-background-color)
     backdrop-filter: blur(20px)
     border: var(--glass-border)
@@ -103,60 +97,38 @@ input
     position: relative
     width: 100%
 
-.searchLoader
-    position: absolute
-    right: 1.5rem
-    top: 50%
-    transform: translateY(-50%)
-    width: 24px
-    height: 24px
-    pointer-events: none
-    z-index: 10
+.centeredLoader
+    display: flex
+    justify-content: center
+    padding: 6rem 0
 
-    &.large
-        position: relative
-        right: auto
-        top: auto
-        transform: none
-        width: 48px
-        height: 48px
-        margin: 2rem auto
-
+.megaRipple
+    position: relative
+    width: 200px
+    height: 200px
     div
         position: absolute
-        inset: 0
+        border: 4px solid var(--blue-accent)
         border-radius: 50%
-        animation: ripple 1.5s cubic-bezier(0, 0.2, 0.8, 1) infinite
-        border: 2px solid var(--blue-accent)
-        z-index: 2
-
+        animation: rippleEffect 1.5s cubic-bezier(0, 0.2, 0.8, 1) infinite
         &:nth-child(2)
             animation-delay: -0.5s
         &:nth-child(3)
             animation-delay: -1s
 
-    &::before
-        content: ''
-        position: absolute
-        inset: 4px
-        background: transparent
-        border-radius: 50%
-        z-index: 1
-
-@keyframes ripple
+@keyframes rippleEffect
     0%
-        transform: scale(0.1)
-        opacity: 0
-    10%
+        top: 100px
+        left: 100px
+        width: 0
+        height: 0
         opacity: 1
     100%
-        transform: scale(1.2)
+        top: 0
+        left: 0
+        width: 200px
+        height: 200px
         opacity: 0
-
-.centeredLoader
-    display: flex
-    justify-content: center
-    padding: 4rem
 
 .resultsList
     display: flex
@@ -172,7 +144,6 @@ input
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3)
     transition: all 0.3s ease
     animation: slideIn 0.4s ease-out
-
     &:hover
         transform: translateY(-2px)
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4)
@@ -181,7 +152,7 @@ input
 @keyframes slideIn
     from
         opacity: 0
-        transform: translateY(10px)
+        transform: translateY(15px)
     to
         opacity: 1
         transform: translateY(0)
@@ -196,35 +167,35 @@ input
     align-items: center
     gap: 0.5rem
     padding: 0.5rem 1rem
+    background: rgba(255, 255, 255, 0.03)
+    border: 1px solid rgba(255, 255, 255, 0.1)
     border-radius: 0.5rem
-    transition: all 0.3s ease
 
 .percent
     font-weight: 700
-    font-size: 1.25rem
+    font-size: 1.1rem
 
 .label
-    font-size: 0.75rem
+    font-size: 0.7rem
     color: var(--text-secondary)
-    letter-spacing: 0.05em
+    letter-spacing: 0.1em
 
 .codeContainer
     background: rgba(0, 0, 0, 0.3)
     border: 1px solid rgba(255, 255, 255, 0.05)
     border-radius: 0.5rem
-    padding: 1rem
+    padding: 1.25rem
     overflow-x: auto
     font-family: var(--font-family-monospace)
-    font-size: 0.875rem
+    font-size: 0.9rem
     line-height: 1.6
 
-.code-keyword
-    color: var(--purple-accent)
+.lua-red
+    color: #ff5f5f
     font-weight: bold
-.code-string
-    color: #a5d6ff
-.code-comment
-    color: #8b949e
-    font-style: italic
-.code-annotation
-    color: var(--blue-accent)
+.lua-cyan
+    color: #00d8ff
+.lua-green
+    color: #4ade80
+.lua-orange
+    color: #fb923c

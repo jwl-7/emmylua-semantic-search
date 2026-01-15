@@ -10,22 +10,19 @@ interface LuaKBEntry {
     vector: number[]
 }
 
-// VERY Lightweight Lua Syntax Highlighter
 const LuaHighlighter = ({ code }: { code: string }) => {
     const highlighted = useMemo(() => {
-        return code
-            .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-            // Comments
-            .replace(/(--.*)/g, '<span class="code-comment">$1</span>')
-            // Annotations (@param, etc)
-            .replace(/(@\w+)/g, '<span class="code-annotation">$1</span>')
-            // Strings
-            .replace(/("[^"]*"|'[^']*')/g, '<span class="code-string">$1</span>')
-            // Keywords
-            .replace(/\b(function|local|return|if|then|else|end|for|in|while|do|and|or|not|true|false|nil)\b/g,
-                '<span class="code-keyword">$1</span>')
-    }, [code])
-
+        let h = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        h = h.replace(/(---@.*)/g, '<span class="lua-cyan">$1</span>');
+        h = h.replace(/\b(function|end)\b(?![^<]*>)/g, '<span class="lua-red">$1</span>');
+        h = h.replace(/(lua-red">function<\/span>\s+)([\w\.:]+)/g, '$1<span class="lua-green">$2</span>');
+        h = h.replace(/(\()([^)]*)(\))/g, (match, open, content, close) => {
+            if (open.includes('<') || content.includes('<')) return match;
+            const orangeParams = content.replace(/\b([a-zA-Z_]\w*)\b/g, '<span class="lua-orange">$1</span>');
+            return `${open}${orangeParams}${close}`;
+        });
+        return h;
+    }, [code]);
     return <code dangerouslySetInnerHTML={{ __html: highlighted }} />
 }
 
@@ -34,7 +31,6 @@ export default function App() {
     const [results, setResults] = useState<(LuaKBEntry & { score: number })[]>([])
     const [model, setModel] = useState<any>(null)
     const [isSearching, setIsSearching] = useState(false)
-    const [hasStarted, setHasStarted] = useState(false)
 
     useEffect(() => {
         async function init() {
@@ -47,32 +43,27 @@ export default function App() {
     useEffect(() => {
         if (!query.trim()) {
             setResults([])
-            setHasStarted(false)
+            setIsSearching(false)
             return
         }
-        setHasStarted(true)
+
+        setIsSearching(true)
 
         const timeoutId = setTimeout(async () => {
             if (!model) return
-            setIsSearching(true)
-
             const output = await model(query, { pooling: 'mean', normalize: true })
             const queryVector = Array.from(output.data) as number[]
-
             const scored = (luaData as LuaKBEntry[]).map(item => ({
                 ...item,
                 score: cos_sim(queryVector, item.vector)
             }))
-
             const topResults = scored
                 .filter(item => item.score > 0.3)
                 .sort((a, b) => b.score - a.score)
                 .slice(0, 5)
-
             setResults(topResults)
             setIsSearching(false)
         }, 500)
-
         return () => clearTimeout(timeoutId)
     }, [query, model])
 
@@ -92,56 +83,42 @@ export default function App() {
                             onChange={(e) => setQuery(e.target.value)}
                             disabled={!model}
                         />
-                        {isSearching && (
-                            <div className="searchLoader">
-                                <div></div>
-                                <div></div>
-                            </div>
-                        )}
                     </div>
                 </div>
 
-                <div className="resultsList">
-                    {/* Centered loader for initial search state */}
-                    {isSearching && results.length === 0 && (
+                <div className="resultsArea">
+                    {isSearching ? (
                         <div className="centeredLoader">
-                            <div className="searchLoader large">
+                            <div className="megaRipple">
                                 <div></div>
                                 <div></div>
                                 <div></div>
                             </div>
                         </div>
-                    )}
-
-                    {results.map((item) => {
-                        const score = item.score * 100
-                        const hue = score * 1.2
-                        const bgColor = `hsla(${hue}, 70%, 50%, 0.1)`
-                        const borderColor = `hsla(${hue}, 70%, 50%, 0.3)`
-                        const textColor = `hsl(${hue}, 70%, 60%)`
-
-                        return (
-                            <div key={item.id} className="resultCard">
-                                <div className="scoreHeader">
-                                    <div
-                                        className="matchBadge"
-                                        style={{
-                                            background: bgColor,
-                                            border: `1px solid ${borderColor}`
-                                        }}
-                                    >
-                                        <span className="percent" style={{ color: textColor }}>
-                                            {score.toFixed(0)}%
-                                        </span>
-                                        <span className="label">MATCH</span>
+                    ) : (
+                        <div className="resultsList">
+                            {results.map((item) => {
+                                const score = item.score * 100
+                                const hue = score * 1.2
+                                const textColor = `hsl(${hue}, 70%, 60%)`
+                                return (
+                                    <div key={item.id} className="resultCard">
+                                        <div className="scoreHeader">
+                                            <div className="matchBadge">
+                                                <span className="percent" style={{ color: textColor }}>
+                                                    {score.toFixed(0)}%
+                                                </span>
+                                                <span className="label">MATCH</span>
+                                            </div>
+                                        </div>
+                                        <pre className="codeContainer">
+                                            <LuaHighlighter code={item.content} />
+                                        </pre>
                                     </div>
-                                </div>
-                                <pre className="codeContainer">
-                                    <LuaHighlighter code={item.content} />
-                                </pre>
-                            </div>
-                        )
-                    })}
+                                )
+                            })}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
