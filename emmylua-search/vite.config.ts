@@ -6,5 +6,5 @@ export default defineConfig({
     plugins: [react()],
     base: "/emmylua-search/",
     resolve: { alias: { '@': path.resolve(__dirname, './src') } },
-    build: { outDir: 'docs' }
+    build: { outDir: '../docs' }
 })
