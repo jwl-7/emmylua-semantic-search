@@ -1,3 +1,4 @@
+import styles from './FileUpload.module.sass'
 import React from 'react'
 
 interface FileUploadProps {
@@ -28,17 +29,17 @@ export default function FileUpload({
     }
 
     return (
-        <div className="file-box">
-            <div className="file-info">
-                <span className="file-name">{fileName}</span>
+        <div className={styles.fileUpload}>
+            <div className={styles.fileInfo}>
+                <span className={styles.fileName}>{fileName}</span>
             </div>
-            <div className="file-actions">
-                <label className="modern-upload">
+            <div className={styles.fileControls}>
+                <label className={styles.fileUpload}>
                     BROWSE
                     <input type="file" accept=".json" onChange={handleFileUpload} hidden />
                 </label>
                 {fileName !== 'lua_kb.json' && (
-                    <button className="clear-btn" onClick={onClearFile}>CLEAR</button>
+                    <button className={styles.fileClear} onClick={onClearFile}>CLEAR</button>
                 )}
             </div>
         </div>

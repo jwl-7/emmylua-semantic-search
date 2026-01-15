@@ -1,8 +1,10 @@
+import styles from './AppController.module.sass'
 import { useState } from 'react'
-import { useSemanticSearch } from '@/useSemanticSearch'
-import SearchPanel from '@/SearchPanel'
-import SearchResults from '@/SearchResults'
-import luaKbData from '@/lua_kb.json'
+import { useSemanticSearch } from '@/hooks/useSemanticSearch'
+import SearchPanel from '@/components/SearchPanel/SearchPanel'
+import SearchResults from '@/components/SearchResults/SearchResults'
+import clsx from 'clsx'
+import luaKbData from '@/data/lua_kb.json'
 
 export default function AppController() {
     const [query, setQuery] = useState('')
@@ -24,8 +26,8 @@ export default function AppController() {
     const isActive = query.length > 0
 
     return (
-        <div className={`app-wrapper ${isActive ? 'active' : ''}`}>
-            <div className="content-wrapper">
+        <div className={clsx(styles.appWrapper, isActive && styles.active)}>
+            <div className={styles.contentWrapper}>
                 <SearchPanel
                     query={query}
                     onQueryChange={setQuery}

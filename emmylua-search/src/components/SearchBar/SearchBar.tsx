@@ -1,3 +1,5 @@
+import styles from './SearchBar.module.sass'
+
 interface SearchBarProps {
     query: string
     onQueryChange: (query: string) => void
@@ -6,10 +8,10 @@ interface SearchBarProps {
 
 export default function SearchBar({ query, onQueryChange, modelReady }: SearchBarProps) {
     return (
-        <div className="input-container">
+        <div className={styles.searchBar}>
             <input
                 type="text"
-                placeholder="Search EmmyLua metafile..."
+                placeholder="Search"
                 autoFocus
                 value={query}
                 onChange={(e) => onQueryChange(e.target.value)}

@@ -1,5 +1,6 @@
-import SearchBar from '@/SearchBar'
-import FileUpload from '@/FileUpload'
+import styles from './SearchPanel.module.sass'
+import SearchBar from '@/components/SearchBar/SearchBar'
+import FileUpload from '@/components/FileUpload/FileUpload'
 
 interface SearchPanelProps {
     query: string
@@ -19,9 +20,9 @@ export default function SearchPanel({
     onClearFile,
 }: SearchPanelProps) {
     return (
-        <div className="search-panel">
-            <h1 className="title">EmmyLua Search</h1>
-            <div className="main-controls">
+        <div className={styles.searchPanel}>
+            <h1 className={styles.title}>EmmyLua Search</h1>
+            <div className={styles.controls}>
                 <SearchBar
                     query={query}
                     onQueryChange={onQueryChange}

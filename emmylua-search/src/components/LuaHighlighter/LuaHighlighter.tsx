@@ -1,3 +1,4 @@
+import styles from './LuaHighlighter.module.sass'
 import { useMemo } from 'react'
 
 interface HighlighterProps {
@@ -10,22 +11,24 @@ export default ({ code }: HighlighterProps) => {
 
         // @param
         h = h.replace(/(---@param\s+)([a-zA-Z_]\w*)(\s+.*)/g, (match, tag, name, type) => {
-            return `<span class="lua-cyan">${tag}</span><span class="lua-orange">${name}</span><span class="lua-cyan">${type}</span>`
+            return `<span class=${styles.cyan}>${tag}</span><span class=${styles.orange}>${name}</span><span class=${styles.cyan}>${type}</span>`
         })
 
         // @tags
-        h = h.replace(/(---@(?!param).+)/g, '<span class="lua-cyan">$1</span>')
+        h = h.replace(/(---@(?!param).+)/g, `<span class=${styles.cyan}>$1</span>`)
 
         // keywords
-        h = h.replace(/\b(function|end)\b(?![^<]*>)/g, '<span class="lua-red">$1</span>')
+        h = h.replace(/\b(function|end)\b(?![^<]*>)/g, `<span class=${styles.red}>$1</span>`)
 
         // function name
-        h = h.replace(/(lua-red">function<\/span>\s+)([\w\.:]+)/g, '$1<span class="lua-green">$2</span>')
+        h = h.replace(/\bfunction\s+([\w\.:]+)/g, (match, name) => {
+            return `<span class="${styles.red}">function</span> <span class="${styles.green}">${name}</span>`
+        })
 
         // parenthesis content
         h = h.replace(/(\()([^)]*)(\))/g, (match, open, content, close) => {
             if (open.includes('<') || content.includes('<')) return match
-            const orangeParams = content.replace(/\b([a-zA-Z_]\w*)\b/g, '<span class="lua-orange">$1</span>')
+            const orangeParams = content.replace(/\b([a-zA-Z_]\w*)\b/g, `<span class=${styles.orange}>$1</span>`)
             return `${open}${orangeParams}${close}`
         })
 

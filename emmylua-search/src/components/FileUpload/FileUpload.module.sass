@@ -1,0 +1,64 @@
+.fileUpload
+    display: flex
+    flex: 0 0 auto
+    height: 56px
+    gap: 1rem
+    align-items: center
+    justify-content: space-between
+    padding: 0 1.25rem
+    background: rgba(255, 255, 255, 0.03)
+    border: 1px solid rgba(255, 255, 255, 0.08)
+    border-radius: var(--radius-md)
+
+    @media (max-width: 768px)
+        grid-row: 1
+        width: 100%
+
+.fileInfo
+    display: flex
+    flex-direction: column
+    justify-content: center
+    min-width: 0
+    flex: 1
+
+.fileName
+    font-family: var(--font-mono)
+    font-size: 0.85rem
+    color: var(--lua-cyan)
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+    max-width: 250px
+
+.fileControls
+    display: flex
+    gap: 0.5rem
+
+.fileUpload,
+.fileClear
+    cursor: pointer
+    font-size: 0.65rem
+    font-weight: 800
+    letter-spacing: 0.05em
+    padding: 0.4rem 0.8rem
+    border-radius: var(--radius-sm)
+    transition: all 0.2s ease
+    border: 1px solid rgba(255, 255, 255, 0.1)
+
+.fileUpload
+    background: rgba(56, 189, 248, 0.1)
+    color: var(--blue-accent)
+
+    &:hover
+        background: rgba(56, 189, 248, 0.2)
+        border-color: var(--blue-accent)
+
+.fileClear
+    background: rgba(229, 57, 53, 0.1)
+    color: var(--lua-red)
+    outline: none
+    border: 1px solid rgba(229, 57, 53, 0.1)
+
+    &:hover
+        background: rgba(229, 57, 53, 0.2)
+        border-color: var(--lua-red)
