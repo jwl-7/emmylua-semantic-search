@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { pipeline, cos_sim } from '@xenova/transformers'
-import luaData from '@/lua_kb.json'
+import LuaHighlighter from '@/LuaHighlighter'
+import luaKbData from '@/lua_kb.json'
 import '@/styles.sass'
 
 interface LuaKBEntry {
@@ -10,42 +11,13 @@ interface LuaKBEntry {
     vector: number[]
 }
 
-const LuaHighlighter = ({ code }: { code: string }) => {
-    const highlighted = useMemo(() => {
-        let h = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-
-        // @param
-        h = h.replace(/(---@param\s+)([a-zA-Z_]\w*)(\s+.*)/g, (match, tag, name, type) => {
-            return `<span class="lua-cyan">${tag}</span><span class="lua-orange">${name}</span><span class="lua-cyan">${type}</span>`
-        })
-
-        // @tags
-        h = h.replace(/(---@(?!param).+)/g, '<span class="lua-cyan">$1</span>')
-
-        // keywords
-        h = h.replace(/\b(function|end)\b(?![^<]*>)/g, '<span class="lua-red">$1</span>')
-
-        // function name
-        h = h.replace(/(lua-red">function<\/span>\s+)([\w\.:]+)/g, '$1<span class="lua-green">$2</span>')
-
-        // parenthesis content
-        h = h.replace(/(\()([^)]*)(\))/g, (match, open, content, close) => {
-            if (open.includes('<') || content.includes('<')) return match
-            const orangeParams = content.replace(/\b([a-zA-Z_]\w*)\b/g, '<span class="lua-orange">$1</span>')
-            return `${open}${orangeParams}${close}`
-        })
-
-        return h
-    }, [code])
-
-    return <code dangerouslySetInnerHTML={{ __html: highlighted }} />
-}
-
 export default function App() {
     const [query, setQuery] = useState('')
     const [results, setResults] = useState<(LuaKBEntry & { score: number })[]>([])
     const [model, setModel] = useState<any>(null)
     const [isSearching, setIsSearching] = useState(false)
+    const [kbData, setKbData] = useState<LuaKBEntry[]>(luaKbData as LuaKBEntry[])
+    const [fileName, setFileName] = useState<string>('lua_kb.json')
 
     useEffect(() => {
         async function init() {
@@ -54,6 +26,28 @@ export default function App() {
         }
         init()
     }, [])
+
+    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (!file) return
+
+        const reader = new FileReader()
+        reader.onload = (event) => {
+            try {
+                const json = JSON.parse(event.target?.result as string)
+                setKbData(json)
+                setFileName(file.name)
+            } catch (err) {
+                alert("Invalid JSON format")
+            }
+        }
+        reader.readAsText(file)
+    }
+
+    const clearFile = () => {
+        setKbData(luaKbData as LuaKBEntry[])
+        setFileName('lua_kb.json')
+    }
 
     useEffect(() => {
         if (!query.trim()) {
@@ -68,7 +62,7 @@ export default function App() {
             if (!model) return
             const output = await model(query, { pooling: 'mean', normalize: true })
             const queryVector = Array.from(output.data) as number[]
-            const scored = (luaData as LuaKBEntry[]).map(item => ({
+            const scored = kbData.map(item => ({
                 ...item,
                 score: cos_sim(queryVector, item.vector)
             }))
@@ -80,7 +74,7 @@ export default function App() {
             setIsSearching(false)
         }, 500)
         return () => clearTimeout(timeoutId)
-    }, [query, model])
+    }, [query, model, kbData])
 
     const isActive = query.length > 0
 
@@ -89,15 +83,34 @@ export default function App() {
             <div className="content-wrapper">
                 <div className="search-panel">
                     <h1 className="title">EmmyLua Search</h1>
-                    <div className="input-container">
-                        <input
-                            type="text"
-                            placeholder="Search EmmyLua metafile..."
-                            autoFocus
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
-                            disabled={!model}
-                        />
+
+                    <div className="main-controls">
+                        <div className="input-container">
+                            <input
+                                type="text"
+                                placeholder="Search EmmyLua metafile..."
+                                autoFocus
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                                disabled={!model}
+                            />
+                        </div>
+
+                        <div className="file-box">
+                            <div className="file-info">
+                                <span className="label">ACTIVE KB</span>
+                                <span className="file-name">{fileName}</span>
+                            </div>
+                            <div className="file-actions">
+                                <label className="modern-upload">
+                                    BROWSE
+                                    <input type="file" accept=".json" onChange={handleFileUpload} hidden />
+                                </label>
+                                {fileName !== 'lua_kb.json' && (
+                                    <button className="clear-btn" onClick={clearFile}>RESET</button>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
