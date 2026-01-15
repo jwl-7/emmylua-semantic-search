@@ -1,27 +1,19 @@
-$glass-bg: rgba(255, 255, 255, 0.05)
-$glass-border: rgba(255, 255, 255, 0.1)
-$accent-blue: #38bdf8
-$accent-purple: #a78bfa
-$text-primary: #e5e7eb
-$text-secondary: #9ca3af
-
-// Rainbow loader variables
-$color-red: #ff6b6b
-$color-yellow: #ffd93d
-$color-green: #6bcf7f
-$color-blue: #4d96ff
-$color-purple: #9d4edd
-$color-pink: #ff006e
+:root
+    --background-image: url('@/bg-city-night.webp')
+    --font-family-sans-serif: 'Segoe UI', Roboto, sans-serif
+    --font-family-monospace: firacode, monospace
+    --glass-background-color: rgba(255, 255, 255, 0.1)
+    --glass-border: 1px solid rgba(255, 255, 255, 0.2)
+    --text-primary: #e5e7eb
+    --text-secondary: #9ca3af
+    --title-gradient: linear-gradient(135deg, #38bdf8, #a78bfa)
+    --blue-accent: #38bdf8
+    --purple-accent: #a78bfa
 
 @font-face
     font-display: swap
     font-family: firacode
     src: url(@/firacode.woff2) format('woff2')
-
-:root
-    --background-image: url('@/bg-city-night.webp')
-    --font-family-sans-serif: 'Segoe UI', Roboto, sans-serif
-    --font-family-monospace: firacode, monospace
 
 *,
 *::before,
@@ -36,7 +28,7 @@ body
     background-attachment: fixed
     background-image: var(--background-image)
     background-size: cover
-    color: $text-primary
+    color: var(--text-primary)
     margin: 0
     text-rendering: optimizeLegibility
 
@@ -63,10 +55,9 @@ main
     justify-content: center
     align-items: center
     padding: 2rem
-    background: $glass-bg
+    background: var(--glass-background-color)
     backdrop-filter: blur(20px)
-    -webkit-backdrop-filter: blur(20px)
-    border: 1px solid $glass-border
+    border: var(--glass-border)
     border-radius: 1rem
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3)
 
@@ -74,17 +65,15 @@ main
     font-size: 3rem
     font-weight: 700
     letter-spacing: 0.1em
-    background: linear-gradient(135deg, $accent-blue, $accent-purple)
-    -webkit-background-clip: text
+    background: var(--title-gradient)
     background-clip: text
-    -webkit-text-fill-color: transparent
 
 .statusIndicator
     display: flex
     align-items: center
     gap: 0.75rem
     font-size: 0.875rem
-    color: $text-secondary
+    color: var(--text-secondary)
 
     .statusDot
         width: 10px
@@ -101,10 +90,9 @@ main
 .searchPanel
     position: relative
     padding: 2rem
-    background: $glass-bg
+    background: var(--glass-background-color)
     backdrop-filter: blur(20px)
-    -webkit-backdrop-filter: blur(20px)
-    border: 1px solid $glass-border
+    border: var(--glass-border)
     border-radius: 1rem
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3)
 
@@ -114,17 +102,17 @@ input
     background: rgba(255, 255, 255, 0.03)
     border: 1px solid rgba(255, 255, 255, 0.08)
     border-radius: 0.75rem
-    color: $text-primary
+    color: var(--text-primary)
     font-size: 1rem
     outline: none
     transition: all 0.3s ease
 
     &::placeholder
-        color: $text-secondary
+        color: var(--text-secondary)
 
     &:focus
         background: rgba(255, 255, 255, 0.05)
-        border-color: $accent-blue
+        border-color: var(--blue-accent)
         box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1)
 
     &:disabled
@@ -133,35 +121,35 @@ input
 
 .searchLoader
     position: absolute
-    right: 2.5rem
+    right: 1.5rem
     top: 50%
     transform: translateY(-50%)
     width: 32px
     height: 32px
+    pointer-events: none
 
     div
         position: absolute
-        opacity: 1
+        inset: 0
         border-radius: 50%
         animation: ripple 2s cubic-bezier(0, 0.2, 0.8, 1) infinite
-        background: conic-gradient(from 0deg, $color-red, $color-yellow, $color-green, $color-blue, $color-purple, $color-pink, $color-red)
+        border: 2px solid var(--blue-accent)
+
+        &:nth-child(1)
+            animation-delay: 0s
+        &:nth-child(2)
+            animation-delay: -0.5s
+        &:nth-child(3)
+            animation-delay: -1s
 
     &::before
         content: ''
         position: absolute
-        top: 3px
-        left: 3px
-        right: 3px
-        bottom: 3px
-        background: $glass-bg
+        inset: 4px
+        background: var(--glass-background-color)
         backdrop-filter: blur(20px)
         border-radius: 50%
-
-    &:nth-child(2)
-        animation-delay: -0.66s
-
-    &:nth-child(3)
-        animation-delay: -1.33s
+        z-index: 1
 
 @keyframes ripple
     0%
@@ -195,10 +183,9 @@ input
     gap: 1.5rem
 
 .resultCard
-    background: $glass-bg
+    background: var(--glass-background-color)
     backdrop-filter: blur(20px)
-    -webkit-backdrop-filter: blur(20px)
-    border: 1px solid $glass-border
+    border: var(--glass-border)
     border-radius: 1rem
     padding: 1.5rem
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3)
@@ -228,7 +215,7 @@ input
 
 .label
     font-size: 0.75rem
-    color: $text-secondary
+    color: var(--text-secondary)
     letter-spacing: 0.05em
 
 .codeContainer
