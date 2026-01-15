@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { useSemanticSearch } from '@/useSemanticSearch'
+import SearchPanel from '@/SearchPanel'
 import SearchResults from '@/SearchResults'
-import SearchBar from '@/SearchBar'
-import FileUpload from '@/FileUpload'
 import luaKbData from '@/lua_kb.json'
 
 export default function AppController() {
@@ -27,26 +26,18 @@ export default function AppController() {
     return (
         <div className={`app-wrapper ${isActive ? 'active' : ''}`}>
             <div className="content-wrapper">
-                <div className="search-panel">
-                    <h1 className="title">EmmyLua Search</h1>
-
-                    <div className="main-controls">
-                        <SearchBar
-                            query={query}
-                            onQueryChange={setQuery}
-                            modelReady={modelReady}
-                        />
-
-                        <FileUpload
-                            fileName={fileName}
-                            onFileUpload={handleFileUpload}
-                            onClearFile={clearFile}
-                            isDefaultFile={fileName === 'lua_kb.json'}
-                        />
-                    </div>
-                </div>
-
-                <SearchResults results={results} isSearching={isSearching} />
+                <SearchPanel
+                    query={query}
+                    onQueryChange={setQuery}
+                    modelReady={modelReady}
+                    fileName={fileName}
+                    onFileUpload={handleFileUpload}
+                    onClearFile={clearFile}
+                />
+                <SearchResults
+                    results={results}
+                    isSearching={isSearching}
+                />
             </div>
         </div>
     )
