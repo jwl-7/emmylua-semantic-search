@@ -70,11 +70,11 @@ export default function App() {
     const isActive = query.length > 0
 
     return (
-        <div className={`appWrapper ${isActive ? 'active' : ''}`}>
-            <div className="contentWrapper">
-                <div className="searchPanel">
+        <div className={`app-wrapper ${isActive ? 'active' : ''}`}>
+            <div className="content-wrapper">
+                <div className="search-panel">
                     <h1 className="title">EmmyLua Search</h1>
-                    <div className="inputContainer">
+                    <div className="input-container">
                         <input
                             type="text"
                             placeholder="Search EmmyLua metafile..."
@@ -86,32 +86,32 @@ export default function App() {
                     </div>
                 </div>
 
-                <div className="resultsArea">
+                <div className="results-area">
                     {isSearching ? (
-                        <div className="centeredLoader">
-                            <div className="megaRipple">
+                        <div className="centered-loader">
+                            <div className="mega-ripple">
                                 <div></div>
                                 <div></div>
                                 <div></div>
                             </div>
                         </div>
                     ) : (
-                        <div className="resultsList">
+                        <div className="results-list">
                             {results.map((item) => {
                                 const score = item.score * 100
                                 const hue = score * 1.2
                                 const textColor = `hsl(${hue}, 70%, 60%)`
                                 return (
-                                    <div key={item.id} className="resultCard">
-                                        <div className="scoreHeader">
-                                            <div className="matchBadge">
+                                    <div key={item.id} className="result-card">
+                                        <div className="score-header">
+                                            <div className="match-badge">
                                                 <span className="percent" style={{ color: textColor }}>
                                                     {score.toFixed(0)}%
                                                 </span>
                                                 <span className="label">MATCH</span>
                                             </div>
                                         </div>
-                                        <pre className="codeContainer">
+                                        <pre className="code-container">
                                             <LuaHighlighter code={item.content} />
                                         </pre>
                                     </div>
