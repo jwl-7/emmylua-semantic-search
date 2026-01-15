@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { pipeline, cos_sim } from '@xenova/transformers'
 import luaData from '@/lua_kb.json'
 import '@/styles.sass'
@@ -10,11 +10,31 @@ interface LuaKBEntry {
     vector: number[]
 }
 
+// VERY Lightweight Lua Syntax Highlighter
+const LuaHighlighter = ({ code }: { code: string }) => {
+    const highlighted = useMemo(() => {
+        return code
+            .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+            // Comments
+            .replace(/(--.*)/g, '<span class="code-comment">$1</span>')
+            // Annotations (@param, etc)
+            .replace(/(@\w+)/g, '<span class="code-annotation">$1</span>')
+            // Strings
+            .replace(/("[^"]*"|'[^']*')/g, '<span class="code-string">$1</span>')
+            // Keywords
+            .replace(/\b(function|local|return|if|then|else|end|for|in|while|do|and|or|not|true|false|nil)\b/g,
+                '<span class="code-keyword">$1</span>')
+    }, [code])
+
+    return <code dangerouslySetInnerHTML={{ __html: highlighted }} />
+}
+
 export default function App() {
     const [query, setQuery] = useState('')
     const [results, setResults] = useState<(LuaKBEntry & { score: number })[]>([])
     const [model, setModel] = useState<any>(null)
     const [isSearching, setIsSearching] = useState(false)
+    const [hasStarted, setHasStarted] = useState(false)
 
     useEffect(() => {
         async function init() {
@@ -25,12 +45,15 @@ export default function App() {
     }, [])
 
     useEffect(() => {
-        if (!model || !query.trim()) {
+        if (!query.trim()) {
             setResults([])
+            setHasStarted(false)
             return
         }
+        setHasStarted(true)
 
         const timeoutId = setTimeout(async () => {
+            if (!model) return
             setIsSearching(true)
 
             const output = await model(query, { pooling: 'mean', normalize: true })
@@ -53,8 +76,10 @@ export default function App() {
         return () => clearTimeout(timeoutId)
     }, [query, model])
 
+    const isActive = query.length > 0
+
     return (
-        <div className="appWrapper">
+        <div className={`appWrapper ${isActive ? 'active' : ''}`}>
             <div className="contentWrapper">
                 <div className="searchPanel">
                     <h1 className="title">EmmyLua Search</h1>
@@ -62,6 +87,7 @@ export default function App() {
                         <input
                             type="text"
                             placeholder="Search EmmyLua metafile..."
+                            autoFocus
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             disabled={!model}
@@ -70,13 +96,23 @@ export default function App() {
                             <div className="searchLoader">
                                 <div></div>
                                 <div></div>
-                                <div></div>
                             </div>
                         )}
                     </div>
                 </div>
 
                 <div className="resultsList">
+                    {/* Centered loader for initial search state */}
+                    {isSearching && results.length === 0 && (
+                        <div className="centeredLoader">
+                            <div className="searchLoader large">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                    )}
+
                     {results.map((item) => {
                         const score = item.score * 100
                         const hue = score * 1.2
@@ -101,7 +137,7 @@ export default function App() {
                                     </div>
                                 </div>
                                 <pre className="codeContainer">
-                                    <code>{item.content}</code>
+                                    <LuaHighlighter code={item.content} />
                                 </pre>
                             </div>
                         )

@@ -60,7 +60,12 @@ input
     padding: 2rem
     display: flex
     justify-content: center
-    align-items: center
+    align-items: flex-start
+    padding-top: 35vh
+    transition: padding-top 0.6s cubic-bezier(0.16, 1, 0.3, 1)
+
+    &.active
+        padding-top: 5vh
 
 .contentWrapper
     width: 100%
@@ -88,6 +93,7 @@ input
     font-weight: 700
     letter-spacing: 0.05em
     background: var(--title-gradient)
+    -webkit-background-clip: text
     background-clip: text
     color: transparent
     margin: 0
@@ -102,20 +108,28 @@ input
     right: 1.5rem
     top: 50%
     transform: translateY(-50%)
-    width: 32px
-    height: 32px
+    width: 24px
+    height: 24px
     pointer-events: none
     z-index: 10
+
+    &.large
+        position: relative
+        right: auto
+        top: auto
+        transform: none
+        width: 48px
+        height: 48px
+        margin: 2rem auto
 
     div
         position: absolute
         inset: 0
         border-radius: 50%
-        animation: ripple 2s cubic-bezier(0, 0.2, 0.8, 1) infinite
+        animation: ripple 1.5s cubic-bezier(0, 0.2, 0.8, 1) infinite
         border: 2px solid var(--blue-accent)
+        z-index: 2
 
-        &:nth-child(1)
-            animation-delay: 0s
         &:nth-child(2)
             animation-delay: -0.5s
         &:nth-child(3)
@@ -131,19 +145,18 @@ input
 
 @keyframes ripple
     0%
-        top: 14px
-        left: 14px
-        width: 4px
-        height: 4px
+        transform: scale(0.1)
         opacity: 0
-    5%
+    10%
         opacity: 1
     100%
-        top: 0
-        left: 0
-        width: 32px
-        height: 32px
+        transform: scale(1.2)
         opacity: 0
+
+.centeredLoader
+    display: flex
+    justify-content: center
+    padding: 4rem
 
 .resultsList
     display: flex
@@ -158,11 +171,20 @@ input
     padding: 1.5rem
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3)
     transition: all 0.3s ease
+    animation: slideIn 0.4s ease-out
 
     &:hover
         transform: translateY(-2px)
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4)
         border-color: rgba(255, 255, 255, 0.15)
+
+@keyframes slideIn
+    from
+        opacity: 0
+        transform: translateY(10px)
+    to
+        opacity: 1
+        transform: translateY(0)
 
 .scoreHeader
     display: flex
@@ -195,3 +217,14 @@ input
     font-family: var(--font-family-monospace)
     font-size: 0.875rem
     line-height: 1.6
+
+.code-keyword
+    color: var(--purple-accent)
+    font-weight: bold
+.code-string
+    color: #a5d6ff
+.code-comment
+    color: #8b949e
+    font-style: italic
+.code-annotation
+    color: var(--blue-accent)
