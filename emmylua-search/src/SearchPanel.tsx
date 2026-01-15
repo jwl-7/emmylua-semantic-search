@@ -21,19 +21,16 @@ export default function SearchPanel({
     return (
         <div className="search-panel">
             <h1 className="title">EmmyLua Search</h1>
-
             <div className="main-controls">
                 <SearchBar
                     query={query}
                     onQueryChange={onQueryChange}
                     modelReady={modelReady}
                 />
-
                 <FileUpload
                     fileName={fileName}
                     onFileUpload={onFileUpload}
                     onClearFile={onClearFile}
-                    isDefaultFile={fileName === 'lua_kb.json'}
                 />
             </div>
         </div>

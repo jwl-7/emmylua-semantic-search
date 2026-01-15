@@ -25,7 +25,9 @@
     font-family: firacode
     src: url(@/firacode.woff2) format('woff2')
 
-*, *::before, *::after
+*,
+*::before,
+*::after
     box-sizing: border-box
     background-repeat: no-repeat
 
@@ -51,6 +53,7 @@ input
     font-size: 1rem
     outline: none
     transition: all 0.3s ease
+
     &::placeholder
         color: var(--text-secondary)
     &:focus
@@ -70,6 +73,7 @@ input
     padding: 2rem
     padding-top: 20vh
     transition: padding-top 0.6s cubic-bezier(0.16, 1, 0.3, 1)
+
     &.active
         padding-top: 5vh
 
@@ -108,8 +112,10 @@ input
     display: grid
     grid-template-columns: 1fr auto
     gap: 1rem
+
     @media (max-width: 768px)
         grid-template-columns: 1fr
+
         .file-box
             grid-row: 1
             width: 100%
@@ -138,20 +144,22 @@ input
     justify-content: center
     min-width: 0
     flex: 1
-    .file-name
-        font-family: var(--font-mono)
-        font-size: 0.85rem
-        color: var(--lua-cyan)
-        white-space: nowrap
-        overflow: hidden
-        text-overflow: ellipsis
-        max-width: 250px
+
+.file-name
+    font-family: var(--font-mono)
+    font-size: 0.85rem
+    color: var(--lua-cyan)
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+    max-width: 250px
 
 .file-actions
     display: flex
     gap: 0.5rem
 
-.modern-upload, .clear-btn
+.modern-upload,
+.clear-btn
     cursor: pointer
     font-size: 0.65rem
     font-weight: 800
@@ -164,6 +172,7 @@ input
 .modern-upload
     background: rgba(56, 189, 248, 0.1)
     color: var(--blue-accent)
+
     &:hover
         background: rgba(56, 189, 248, 0.2)
         border-color: var(--blue-accent)
@@ -173,6 +182,7 @@ input
     color: var(--lua-red)
     outline: none
     border: 1px solid rgba(229, 57, 53, 0.1)
+
     &:hover
         background: rgba(229, 57, 53, 0.2)
         border-color: var(--lua-red)
@@ -197,6 +207,7 @@ input
     box-shadow: var(--glass-shadow)
     transition: all 0.3s ease
     animation: slide-in 0.4s ease-out
+
     &:hover
         transform: translateY(-2px)
         box-shadow: var(--glass-shadow-hover)
@@ -239,10 +250,13 @@ input
 .lua-red
     color: var(--lua-red)
     font-weight: bold
+
 .lua-cyan
     color: var(--lua-cyan)
+
 .lua-green
     color: var(--lua-green)
+
 .lua-orange
     color: var(--lua-orange)
 

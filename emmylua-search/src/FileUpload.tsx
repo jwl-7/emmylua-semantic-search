@@ -4,14 +4,12 @@ interface FileUploadProps {
     fileName: string
     onFileUpload: (data: any, fileName: string) => void
     onClearFile: () => void
-    isDefaultFile: boolean
 }
 
 export default function FileUpload({
     fileName,
     onFileUpload,
-    onClearFile,
-    isDefaultFile
+    onClearFile
 }: FileUploadProps) {
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
@@ -39,8 +37,8 @@ export default function FileUpload({
                     BROWSE
                     <input type="file" accept=".json" onChange={handleFileUpload} hidden />
                 </label>
-                {!isDefaultFile && (
-                    <button className="clear-btn" onClick={onClearFile}>RESET</button>
+                {fileName !== 'lua_kb.json' && (
+                    <button className="clear-btn" onClick={onClearFile}>CLEAR</button>
                 )}
             </div>
         </div>
