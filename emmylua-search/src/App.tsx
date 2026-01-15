@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useSemanticSearch } from '@/useSemanticSearch'
 import SearchResults from '@/SearchResults'
+import SearchBar from '@/SearchBar'
 import FileUpload from '@/FileUpload'
 import luaKbData from '@/lua_kb.json'
 import '@/styles.sass'
@@ -31,16 +32,11 @@ export default function App() {
                     <h1 className="title">EmmyLua Search</h1>
 
                     <div className="main-controls">
-                        <div className="input-container">
-                            <input
-                                type="text"
-                                placeholder="Search EmmyLua metafile..."
-                                autoFocus
-                                value={query}
-                                onChange={(e) => setQuery(e.target.value)}
-                                disabled={!modelReady}
-                            />
-                        </div>
+                        <SearchBar
+                            query={query}
+                            onQueryChange={setQuery}
+                            modelReady={modelReady}
+                        />
 
                         <FileUpload
                             fileName={fileName}
