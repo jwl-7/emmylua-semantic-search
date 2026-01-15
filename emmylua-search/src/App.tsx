@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import LuaHighlighter from '@/LuaHighlighter'
+import React, { useState } from 'react'
 import { useSemanticSearch } from '@/useSemanticSearch'
+import SearchResults from '@/SearchResults'
 import luaKbData from '@/lua_kb.json'
 import '@/styles.sass'
 
@@ -87,28 +87,7 @@ export default function App() {
                             </div>
                         </div>
                     ) : (
-                        <div className="results-list">
-                            {results.map((item) => {
-                                const score = item.score * 100
-                                const hue = score * 1.2
-                                const textColor = `hsl(${hue}, 70%, 60%)`
-                                return (
-                                    <div key={item.id} className="result-card">
-                                        <div className="score-header">
-                                            <div className="match-badge">
-                                                <span className="percent" style={{ color: textColor }}>
-                                                    {score.toFixed(0)}%
-                                                </span>
-                                                <span className="label">MATCH</span>
-                                            </div>
-                                        </div>
-                                        <pre className="code-container">
-                                            <LuaHighlighter code={item.content} />
-                                        </pre>
-                                    </div>
-                                )
-                            })}
-                        </div>
+                        <SearchResults results={results} />
                     )}
                 </div>
             </div>
