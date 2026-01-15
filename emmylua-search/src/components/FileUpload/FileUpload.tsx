@@ -29,7 +29,7 @@ export default function FileUpload({
     }
 
     return (
-        <div className={styles.fileUpload}>
+        <div className={styles.fileUploadWrapper}>
             <div className={styles.fileInfo}>
                 <span className={styles.fileName}>{fileName}</span>
             </div>
