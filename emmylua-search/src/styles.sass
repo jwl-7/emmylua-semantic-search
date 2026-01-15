@@ -32,70 +32,6 @@ body
     margin: 0
     text-rendering: optimizeLegibility
 
-main
-    height: 100vh
-
-.appWrapper
-    min-height: 100vh
-    padding: 2rem
-    display: flex
-    justify-content: center
-    align-items: center
-
-.contentWrapper
-    width: 100%
-    max-width: 900px
-    min-width: 900px
-    display: flex
-    flex-direction: column
-    gap: 2rem
-
-.header
-    display: flex
-    justify-content: center
-    align-items: center
-    padding: 2rem
-    background: var(--glass-background-color)
-    backdrop-filter: blur(20px)
-    border: var(--glass-border)
-    border-radius: 1rem
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3)
-
-.title
-    font-size: 3rem
-    font-weight: 700
-    letter-spacing: 0.1em
-    background: var(--title-gradient)
-    background-clip: text
-
-.statusIndicator
-    display: flex
-    align-items: center
-    gap: 0.75rem
-    font-size: 0.875rem
-    color: var(--text-secondary)
-
-    .statusDot
-        width: 10px
-        height: 10px
-        border-radius: 50%
-        animation: pulse 2s ease-in-out infinite
-
-@keyframes pulse
-    0%, 100%
-        opacity: 1
-    50%
-        opacity: 0.5
-
-.searchPanel
-    position: relative
-    padding: 2rem
-    background: var(--glass-background-color)
-    backdrop-filter: blur(20px)
-    border: var(--glass-border)
-    border-radius: 1rem
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3)
-
 input
     width: 100%
     padding: 1rem 1.5rem
@@ -119,6 +55,48 @@ input
         opacity: 0.5
         cursor: not-allowed
 
+.appWrapper
+    min-height: 100vh
+    padding: 2rem
+    display: flex
+    justify-content: center
+    align-items: center
+
+.contentWrapper
+    width: 100%
+    max-width: 900px
+    min-width: 900px
+    display: flex
+    flex-direction: column
+    gap: 2rem
+
+.searchPanel
+    position: relative
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 1.5rem
+    padding: 2rem
+    background: var(--glass-background-color)
+    backdrop-filter: blur(20px)
+    border: var(--glass-border)
+    border-radius: 1rem
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3)
+
+.title
+    font-size: 2.5rem
+    font-weight: 700
+    letter-spacing: 0.05em
+    background: var(--title-gradient)
+    background-clip: text
+    color: transparent
+    margin: 0
+    text-align: center
+
+.inputContainer
+    position: relative
+    width: 100%
+
 .searchLoader
     position: absolute
     right: 1.5rem
@@ -127,6 +105,7 @@ input
     width: 32px
     height: 32px
     pointer-events: none
+    z-index: 10
 
     div
         position: absolute
@@ -146,8 +125,7 @@ input
         content: ''
         position: absolute
         inset: 4px
-        background: var(--glass-background-color)
-        backdrop-filter: blur(20px)
+        background: transparent
         border-radius: 50%
         z-index: 1
 
@@ -158,17 +136,7 @@ input
         width: 4px
         height: 4px
         opacity: 0
-    4.9%
-        top: 14px
-        left: 14px
-        width: 4px
-        height: 4px
-        opacity: 0
     5%
-        top: 14px
-        left: 14px
-        width: 4px
-        height: 4px
         opacity: 1
     100%
         top: 0
@@ -224,9 +192,6 @@ input
     border-radius: 0.5rem
     padding: 1rem
     overflow-x: auto
-    font-family: 'Fira Code', 'Courier New', monospace
+    font-family: var(--font-family-monospace)
     font-size: 0.875rem
     line-height: 1.6
-
-code
-    color: #e5e7eb

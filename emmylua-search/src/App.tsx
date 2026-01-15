@@ -1,12 +1,3 @@
-// import '@styles/styles.sass'
-
-// export function App() {
-//     return (
-//         <div className="App">
-//         </div>
-//     )
-// }
-
 import React, { useState, useEffect } from 'react'
 import { pipeline, cos_sim } from '@xenova/transformers'
 import luaData from '@/lua_kb.json'
@@ -57,7 +48,7 @@ export default function App() {
 
             setResults(topResults)
             setIsSearching(false)
-        }, 500) // Debounce for 500ms
+        }, 500)
 
         return () => clearTimeout(timeoutId)
     }, [query, model])
@@ -65,31 +56,30 @@ export default function App() {
     return (
         <div className="appWrapper">
             <div className="contentWrapper">
-                <header className="header">
-                    <h1 className="title">EmmyLua Search</h1>
-                </header>
-
                 <div className="searchPanel">
-                    <input
-                        type="text"
-                        placeholder="Search EmmyLua metafile..."
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        disabled={!model}
-                    />
-                    {isSearching && (
-                        <div className="searchLoader">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    )}
+                    <h1 className="title">EmmyLua Search</h1>
+                    <div className="inputContainer">
+                        <input
+                            type="text"
+                            placeholder="Search EmmyLua metafile..."
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            disabled={!model}
+                        />
+                        {isSearching && (
+                            <div className="searchLoader">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 <div className="resultsList">
                     {results.map((item) => {
                         const score = item.score * 100
-                        const hue = score * 1.2 // 0% = 0° (red), 100% = 120° (green)
+                        const hue = score * 1.2
                         const bgColor = `hsla(${hue}, 70%, 50%, 0.1)`
                         const borderColor = `hsla(${hue}, 70%, 50%, 0.3)`
                         const textColor = `hsl(${hue}, 70%, 60%)`
