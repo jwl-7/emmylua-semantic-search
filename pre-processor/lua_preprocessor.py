@@ -86,7 +86,6 @@ def build_kb(file_path: str, output_file: str, model: SentenceTransformer):
     print(f'{Color.SUCCESS} Created {Color.CYAN}{output_file} {Color.RESET}from {Color.CYAN}{filename}{Color.RESET}')
 
 if __name__ == '__main__':
-    print(Color.ENTER)
     desktop_dir = os.path.join(os.path.expanduser('~'), 'Desktop')
 
     root = tk.Tk()
