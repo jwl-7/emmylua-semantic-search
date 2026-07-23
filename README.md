@@ -15,6 +15,3 @@ The python [pre-processor](./pre-processor/) uses [sentence-transformers](https:
 
 #### Semantic Retrieval (Client-Side)
 The frontend [emmylua-search](./emmylua-search/) uses [Transformers.js](https://huggingface.co/docs/transformers.js/en/index) to perform local inference. When a user searches, the query is vectorized in-browser using the mini AI model [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2). A cosine similarity calculation is performed against the local index to find the most contextually relevant matches.
-
-## ⚖️ License
-This project is released under the GNU GPL License - see the [LICENSE](LICENSE) file for details
